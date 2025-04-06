@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate Educational Video</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #121212; /* Dark background */
+      color: #f0f0f0; /* Light text */
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 3em;
+      font-weight: bold;
+      color: #00bcd4; /* Accent color */
+      margin-top: 2em;
+      margin-bottom: 1em;
+      text-align: center;
+    }
+
+    h2 {
+      color: #e0e0e0;
+      margin-bottom: 1.5em;
+      text-align: center;
+    }
+
+    #videoForm {
+      background-color: #1e1e1e; /* Darker form background */
+      padding: 2em;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      width: 80%;
+      max-width: 500px;
+      margin-bottom: 2em;
+      display: flex; /* Enable flexbox for centering */
+      flex-direction: column; /* Keep labels and inputs stacked */
+      align-items: center; /* Center the button horizontally */
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5em;
+      color: #ccc;
+      font-weight: bold;
+      width: 100%; /* Ensure labels take full width */
+      text-align: left; /* Align labels to the left */
+    }
+
+    input[type="text"] {
+      width: calc(100% - 22px);
+      padding: 0.8em;
+      margin-bottom: 1.5em;
+      border: 1px solid #333;
+      border-radius: 4px;
+      background-color: #222;
+      color: #f0f0f0;
+      box-sizing: border-box;
+    }
+
+    button[type="submit"] {
+      background-color: #00bcd4; /* Accent button color */
+      color: #fff;
+      padding: 1em 2em;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+      width: fit-content; /* Make button width fit its content */
+    }
+
+    button[type="submit"]:hover {
+      background-color: #0097a7;
+    }
+
+    #status {
+      margin-top: 1.5em;
+      color: #a7ffeb; /* Success text color */
+      font-weight: bold;
+      text-align: center;
+    }
+
+    #domains {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1em;
+      margin-bottom: 1.5em;
+    }
+
+    .domain-option {
+      background-color: #333;
+      color: #eee;
+      padding: 0.8em 1.2em;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .domain-option:hover {
+      background-color: #555;
+    }
+
+    #eduspark-title {
+      font-size: 5em;
+      font-weight: 900;
+      color: #ffc107; /* Another accent color */
+      text-align: center;
+      margin-top: 1em;
+      margin-bottom: 0.5em;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div id="eduspark-title">EduSpark</div>
+  <h2>Generate Video with AI ✨</h2>
+
+  <div id="domains">
+    <div class="domain-option" onclick="setSubject('Visual Arts')">Visual Arts</div>
+    <div class="domain-option" onclick="setSubject('Performing Arts')">Performing Arts</div>
+    <div class="domain-option" onclick="setSubject('Coding')">Coding</div>
+    <div class="domain-option" onclick="setSubject('Financial Literacy')">Financial Literacy</div>
+    <div class="domain-option" onclick="setSubject('Science')">Science</div>
+  </div>
+
+  <form id="videoForm">
+    <label for="subject">Subject:</label>
+    <input type="text" id="subject" name="subject" required placeholder="e.g., Biology, Music Theory"><br><br>
+
+    <label for="topic">Topic:</label>
+    <input type="text" id="topic" name="topic" required placeholder="Enter your specific topic"><br><br>
+
+    <label for="phone">Phone (with country code):</label>
+    <input type="text" id="phone" name="phone" required><br><br>
+
+    <button type="submit">Generate Video</button>
+  </form>
+
+  <p id="status"></p>
+
+  <script>
+    function setSubject(domain) {
+      document.getElementById("subject").value = domain;
+    }
+
+    document.getElementById("videoForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const subject = document.getElementById("subject").value;
+      const topic = document.getElementById("topic").value;
+      const phone = document.getElementById("phone").value;
+
+      document.getElementById("status").innerText = "Generating video... ⏳";
+
+      const res = await fetch("/generate-video", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ subject, topic, phone })
+      });
+
+      const data = await res.json();
+
+      if (data.status === "success") {
+        document.getElementById("status").innerHTML =
+          `✅ Video generated! <a href="${data.video_url}" target="_blank" style="color: #00bcd4;">Watch it here</a>`;
+      } else {
+        document.getElementById("status").innerText = "❌ Something went wrong.";
+      }
+    });
+  </script>
+</body>
+</html>

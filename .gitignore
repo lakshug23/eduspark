@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+myenv/
+
+# Python distribution files
+*.egg
+*.egg-info/
+dist/
+build/
+*.tgz
+*.tar.gz
+*.whl
+
+# Environment variables
+.env
+
+# VSCode settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Token or credentials
+token.pickle
+
+# Test cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Static and template cache (if generated dynamically)
+staticfiles/
