@@ -16,6 +16,8 @@ EduSpark is a full-stack Flask-based application that:
 - ✅ Audio + title video generation with Shotstack
 - ✅ WhatsApp delivery of the video using Twilio
 - ✅ Clean frontend interface (HTML/JS)
+- ✅ **Repository pinning system** for saving and organizing educational resources
+- ✅ **Access tracking** for pinned repositories to monitor usage
 
 ---
 
@@ -76,7 +78,27 @@ TWILIO_PHONE=whatsapp:+your_twilio_number
 python app.py
 ```
 
-Visit `http://localhost:5000` in your browser.
+Visit `http://localhost:8000` in your browser.
+
+## 📌 Repository Pinning Feature
+
+EduSpark now includes a repository pinning system that allows you to:
+
+- **Pin educational repositories** for quick access and organization
+- **Add custom titles and descriptions** to your pinned repositories
+- **Track access counts** to see which repositories you use most frequently
+- **Manage your collection** with easy unpin functionality
+
+### How to Use:
+1. Navigate to the "📌 Pin Repository" section in the web interface
+2. Enter a repository URL (e.g., `https://github.com/username/repo`)
+3. Optionally add a custom title and description
+4. Click "Pin Repository" to save it to your collection
+5. View and manage your pinned repositories in the "📋 Pinned Repositories" section
+6. Click "Open" to visit a repository (this tracks access count)
+7. Click "Unpin" to remove a repository from your collection
+
+The pinned repositories are stored locally in `pinned_repos.json` and persist between application restarts.
 
 ---
 

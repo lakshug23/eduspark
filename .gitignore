@@ -39,4 +39,7 @@ coverage.xml
 # Static and template cache (if generated dynamically)
 staticfiles/
 
+# Audio files generated during video creation
+static/audio_*.mp3
+
 Python-3.11.7/
