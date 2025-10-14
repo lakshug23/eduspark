@@ -1,4 +1,3 @@
-
 # 📚 EduSpark - Automated Educational Video Generator
 
 EduSpark is a full-stack Flask-based application that:
@@ -38,21 +37,21 @@ EduSpark is a full-stack Flask-based application that:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/eduspark.git
-cd eduspark
+ git clone https://github.com/your-username/eduspark.git
+ cd eduspark
 ```
 
 ### 2. Create a virtual environment
 
 ```bash
-python3 -m venv myenv
-source myenv/bin/activate
+ python3 -m venv myenv
+ source myenv/bin/activate
 ```
 
 ### 3. Install dependencies
 
 ```bash
-pip install -r requirements.txt
+ pip install -r requirements.txt
 ```
 
 ### 4. Set environment variables
@@ -60,12 +59,12 @@ pip install -r requirements.txt
 Create a `.env` file in the project root:
 
 ```env
-GEMINI_API_KEY=your_google_gemini_api_key
-ELEVENLABS_API_KEY=your_elevenlabs_api_key
-SHOTSTACK_API_KEY=your_shotstack_api_key
-TWILIO_SID=your_twilio_sid
-TWILIO_AUTH_TOKEN=your_twilio_auth_token
-TWILIO_PHONE=whatsapp:+your_twilio_number
+ GEMINI_API_KEY=your_google_gemini_api_key
+ ELEVENLABS_API_KEY=your_elevenlabs_api_key
+ SHOTSTACK_API_KEY=your_shotstack_api_key
+ TWILIO_SID=your_twilio_sid
+ TWILIO_AUTH_TOKEN=your_twilio_auth_token
+ TWILIO_PHONE=whatsapp:+your_twilio_number
 ```
 
 ---
@@ -73,7 +72,7 @@ TWILIO_PHONE=whatsapp:+your_twilio_number
 ## ▶️ Run the App
 
 ```bash
-python app.py
+ python app.py
 ```
 
 Visit `http://localhost:5000` in your browser.
@@ -99,15 +98,11 @@ If Shotstack cannot fetch audio from localhost, the app uses Google Drive:
 
 ---
 
-Snapshots 
-<img src="/Users/lakshanagopu/Desktop/eduspark/Screenshot 2025-04-06 at 9.23.06 PM.png" alt="EduSpark Banner" width="600"/>
-<img src="/Users/lakshanagopu/Desktop/eduspark/Screenshot 2025-04-06 at 9.23.37 PM.png" alt="EduSpark Banner" width="600"/>
-<img src="/Users/lakshanagopu/Desktop/eduspark/Screenshot 2025-04-06 at 9.24.04 PM.png" alt="EduSpark Banner" width="600"/>
-<img src="/Users/lakshanagopu/Desktop/eduspark/Screenshot 2025-04-06 at 9.24.29 PM.png" alt="EduSpark Banner" width="600"/>
+## Snapshots
 
+<img src="images/Screenshot_2025-04-06_9.23.06_PM.png" alt="EduSpark Screenshot 1" width="600"/>
+<img src="images/Screenshot_2025-04-06_9.23.37_PM.png" alt="EduSpark Screenshot 2" width="600"/>
+<img src="images/Screenshot_2025-04-06_9.24.04_PM.png" alt="EduSpark Screenshot 3" width="600"/>
+<img src="images/Screenshot_2025-04-06_9.24.29_PM.png" alt="EduSpark Screenshot 4" width="600"/>
 
 ---
-
-Would you like me to:
-- Add this as a file in your codebase?
-- Generate a `requirements.txt` for this as well?
