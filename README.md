@@ -69,6 +69,12 @@ Create a `.env` file in the project root:
 
 ---
 
+## ▶️ Demo
+
+[![Watch the demo](https://img.youtube.com/vi/w__0HgkNMbI/0.jpg)](https://youtu.be/w__0HgkNMbI)
+
+---
+
 ## ▶️ Run the App
 
 ```bash
@@ -100,9 +106,9 @@ If Shotstack cannot fetch audio from localhost, the app uses Google Drive:
 
 ## Snapshots
 
-<img src="images/Screenshot_2025-04-06_9.23.06_PM.png" alt="EduSpark Screenshot 1" width="600"/>
-<img src="images/Screenshot_2025-04-06_9.23.37_PM.png" alt="EduSpark Screenshot 2" width="600"/>
-<img src="images/Screenshot_2025-04-06_9.24.04_PM.png" alt="EduSpark Screenshot 3" width="600"/>
-<img src="images/Screenshot_2025-04-06_9.24.29_PM.png" alt="EduSpark Screenshot 4" width="600"/>
+<img src="Screenshot_2025-04-06_9.23.06_PM.png" alt="EduSpark Screenshot 1" width="600"/>
+<img src="Screenshot_2025-04-06_9.23.37_PM.png" alt="EduSpark Screenshot 2" width="600"/>
+<img src="Screenshot_2025-04-06_9.24.04_PM.png" alt="EduSpark Screenshot 3" width="600"/>
+<img src="Screenshot_2025-04-06_9.24.29_PM.png" alt="EduSpark Screenshot 4" width="600"/>
 
 ---
