@@ -106,9 +106,9 @@ If Shotstack cannot fetch audio from localhost, the app uses Google Drive:
 
 ## Snapshots
 
-<img src="Screenshot_2025-04-06_9.23.06_PM.png" alt="EduSpark Screenshot 1" width="600"/>
-<img src="Screenshot_2025-04-06_9.23.37_PM.png" alt="EduSpark Screenshot 2" width="600"/>
-<img src="Screenshot_2025-04-06_9.24.04_PM.png" alt="EduSpark Screenshot 3" width="600"/>
-<img src="Screenshot_2025-04-06_9.24.29_PM.png" alt="EduSpark Screenshot 4" width="600"/>
+<img src="Screenshot 2025-04-06 at 9.23.06 PM.png" alt="EduSpark Screenshot 1" width="600"/>
+<img src="Screenshot 2025-04-06 at 9.23.37 PM.png" alt="EduSpark Screenshot 2" width="600"/>
+<img src="Screenshot 2025-04-06 at 9.24.04 PM.png" alt="EduSpark Screenshot 3" width="600"/>
+<img src="Screenshot 2025-04-06 at 9.24.29 PM.png" alt="EduSpark Screenshot 4" width="600"/>
 
 ---
