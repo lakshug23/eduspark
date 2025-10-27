@@ -7,6 +7,8 @@ import textwrap
 import base64
 import uuid
 import time
+import json
+from datetime import datetime
 from moviepy.editor import VideoFileClip, AudioFileClip
 from twilio.rest import Client
 from google.cloud import storage
@@ -18,6 +20,75 @@ from google.auth.transport.requests import Request
 
 
 SCOPES = ['https://www.googleapis.com/auth/drive']
+
+# File to store pinned repositories
+PINNED_REPOS_FILE = 'pinned_repos.json'
+
+def load_pinned_repos():
+    """Load pinned repositories from JSON file"""
+    if os.path.exists(PINNED_REPOS_FILE):
+        try:
+            with open(PINNED_REPOS_FILE, 'r') as f:
+                return json.load(f)
+        except (json.JSONDecodeError, IOError):
+            return []
+    return []
+
+def save_pinned_repos(repos):
+    """Save pinned repositories to JSON file"""
+    try:
+        with open(PINNED_REPOS_FILE, 'w') as f:
+            json.dump(repos, f, indent=2)
+        return True
+    except IOError:
+        return False
+
+def add_pinned_repo(repo_url, title=None, description=None):
+    """Add a repository to the pinned list"""
+    pinned_repos = load_pinned_repos()
+    
+    # Check if repo is already pinned
+    for repo in pinned_repos:
+        if repo['url'] == repo_url:
+            return False, "Repository already pinned"
+    
+    # Create new pinned repo entry
+    new_repo = {
+        'id': str(uuid.uuid4()),
+        'url': repo_url,
+        'title': title or repo_url.split('/')[-1],
+        'description': description or '',
+        'pinned_at': datetime.now().isoformat(),
+        'access_count': 0
+    }
+    
+    pinned_repos.append(new_repo)
+    success = save_pinned_repos(pinned_repos)
+    
+    if success:
+        return True, "Repository pinned successfully"
+    else:
+        return False, "Failed to save pinned repository"
+
+def remove_pinned_repo(repo_id):
+    """Remove a repository from the pinned list"""
+    pinned_repos = load_pinned_repos()
+    pinned_repos = [repo for repo in pinned_repos if repo['id'] != repo_id]
+    success = save_pinned_repos(pinned_repos)
+    
+    if success:
+        return True, "Repository unpinned successfully"
+    else:
+        return False, "Failed to remove pinned repository"
+
+def increment_repo_access(repo_id):
+    """Increment access count for a pinned repository"""
+    pinned_repos = load_pinned_repos()
+    for repo in pinned_repos:
+        if repo['id'] == repo_id:
+            repo['access_count'] += 1
+            save_pinned_repos(pinned_repos)
+            break
 
 def authenticate_google_drive():
     """Authenticate the user and return a Google Drive service object."""
@@ -95,6 +166,61 @@ TWILIO_PHONE = os.getenv("TWILIO_PHONE")
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/pinned-repos", methods=["GET"])
+def get_pinned_repos():
+    """Get list of pinned repositories"""
+    pinned_repos = load_pinned_repos()
+    return jsonify({"status": "success", "pinned_repos": pinned_repos})
+
+@app.route("/pin-repo", methods=["POST"])
+def pin_repo():
+    """Pin a repository"""
+    data = request.json
+    repo_url = data.get("repo_url", "").strip()
+    title = data.get("title", "").strip()
+    description = data.get("description", "").strip()
+    
+    if not repo_url:
+        return jsonify({"status": "error", "message": "Repository URL is required"})
+    
+    # Basic URL validation
+    if not (repo_url.startswith("http://") or repo_url.startswith("https://")):
+        repo_url = "https://" + repo_url
+    
+    success, message = add_pinned_repo(repo_url, title, description)
+    
+    if success:
+        return jsonify({"status": "success", "message": message})
+    else:
+        return jsonify({"status": "error", "message": message})
+
+@app.route("/unpin-repo", methods=["POST"])
+def unpin_repo():
+    """Unpin a repository"""
+    data = request.json
+    repo_id = data.get("repo_id", "").strip()
+    
+    if not repo_id:
+        return jsonify({"status": "error", "message": "Repository ID is required"})
+    
+    success, message = remove_pinned_repo(repo_id)
+    
+    if success:
+        return jsonify({"status": "success", "message": message})
+    else:
+        return jsonify({"status": "error", "message": message})
+
+@app.route("/access-repo", methods=["POST"])
+def access_repo():
+    """Increment access count for a repository"""
+    data = request.json
+    repo_id = data.get("repo_id", "").strip()
+    
+    if repo_id:
+        increment_repo_access(repo_id)
+    
+    return jsonify({"status": "success"})
 
 @app.route("/generate-video", methods=["POST"])
 def generate_video():

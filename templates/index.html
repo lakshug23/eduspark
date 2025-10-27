@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Generate Educational Video</title>
+  <title>EduSpark - Educational Video Generator</title>
   <style>
     body {
       font-family: sans-serif;
@@ -31,13 +31,35 @@
       text-align: center;
     }
 
-    #videoForm {
+    h3 {
+      color: #e0e0e0;
+      margin-bottom: 1em;
+      text-align: center;
+    }
+
+    .main-container {
+      width: 90%;
+      max-width: 1200px;
+      display: flex;
+      gap: 2em;
+      margin-bottom: 2em;
+    }
+
+    .video-section {
+      flex: 1;
+      min-width: 500px;
+    }
+
+    .pinned-section {
+      flex: 1;
+      min-width: 400px;
+    }
+
+    #videoForm, #pinForm {
       background-color: #1e1e1e; /* Darker form background */
       padding: 2em;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-      width: 80%;
-      max-width: 500px;
       margin-bottom: 2em;
       display: flex; /* Enable flexbox for centering */
       flex-direction: column; /* Keep labels and inputs stacked */
@@ -53,7 +75,7 @@
       text-align: left; /* Align labels to the left */
     }
 
-    input[type="text"] {
+    input[type="text"], input[type="url"], textarea {
       width: calc(100% - 22px);
       padding: 0.8em;
       margin-bottom: 1.5em;
@@ -62,22 +84,43 @@
       background-color: #222;
       color: #f0f0f0;
       box-sizing: border-box;
+      resize: vertical;
     }
 
-    button[type="submit"] {
+    textarea {
+      min-height: 60px;
+    }
+
+    button {
       background-color: #00bcd4; /* Accent button color */
       color: #fff;
-      padding: 1em 2em;
+      padding: 0.8em 1.5em;
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      font-size: 1em;
+      font-size: 0.9em;
       transition: background-color 0.3s ease;
-      width: fit-content; /* Make button width fit its content */
+      margin: 0.2em;
     }
 
-    button[type="submit"]:hover {
+    button:hover {
       background-color: #0097a7;
+    }
+
+    button.danger {
+      background-color: #f44336;
+    }
+
+    button.danger:hover {
+      background-color: #d32f2f;
+    }
+
+    button.secondary {
+      background-color: #555;
+    }
+
+    button.secondary:hover {
+      background-color: #777;
     }
 
     #status {
@@ -117,36 +160,135 @@
       margin-bottom: 0.5em;
       letter-spacing: 2px;
     }
+
+    .pinned-repos-container {
+      background-color: #1e1e1e;
+      padding: 1.5em;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .pinned-repo-item {
+      background-color: #2a2a2a;
+      padding: 1em;
+      margin-bottom: 1em;
+      border-radius: 6px;
+      border-left: 4px solid #00bcd4;
+    }
+
+    .pinned-repo-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .repo-title {
+      font-weight: bold;
+      color: #00bcd4;
+      margin-bottom: 0.5em;
+      font-size: 1.1em;
+    }
+
+    .repo-url {
+      color: #888;
+      font-size: 0.9em;
+      word-break: break-all;
+      margin-bottom: 0.5em;
+    }
+
+    .repo-description {
+      color: #ccc;
+      font-size: 0.9em;
+      margin-bottom: 0.5em;
+    }
+
+    .repo-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8em;
+      color: #888;
+    }
+
+    .repo-actions {
+      display: flex;
+      gap: 0.5em;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: #888;
+      font-style: italic;
+      padding: 2em;
+    }
+
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+        width: 95%;
+      }
+      
+      .video-section, .pinned-section {
+        min-width: auto;
+      }
+    }
   </style>
 </head>
 <body>
   <div id="eduspark-title">EduSpark</div>
-  <h2>Generate Video with AI ✨</h2>
+  <h2>Generate Educational Videos & Pin Repositories ✨</h2>
 
-  <div id="domains">
-    <div class="domain-option" onclick="setSubject('Visual Arts')">Visual Arts</div>
-    <div class="domain-option" onclick="setSubject('Performing Arts')">Performing Arts</div>
-    <div class="domain-option" onclick="setSubject('Coding')">Coding</div>
-    <div class="domain-option" onclick="setSubject('Financial Literacy')">Financial Literacy</div>
-    <div class="domain-option" onclick="setSubject('Science')">Science</div>
+  <div class="main-container">
+    <div class="video-section">
+      <h3>🎥 Generate Video</h3>
+      <div id="domains">
+        <div class="domain-option" onclick="setSubject('Visual Arts')">Visual Arts</div>
+        <div class="domain-option" onclick="setSubject('Performing Arts')">Performing Arts</div>
+        <div class="domain-option" onclick="setSubject('Coding')">Coding</div>
+        <div class="domain-option" onclick="setSubject('Financial Literacy')">Financial Literacy</div>
+        <div class="domain-option" onclick="setSubject('Science')">Science</div>
+      </div>
+
+      <form id="videoForm">
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" required placeholder="e.g., Biology, Music Theory"><br><br>
+
+        <label for="topic">Topic:</label>
+        <input type="text" id="topic" name="topic" required placeholder="Enter your specific topic"><br><br>
+
+        <label for="phone">Phone (with country code):</label>
+        <input type="text" id="phone" name="phone" required><br><br>
+
+        <button type="submit">Generate Video</button>
+      </form>
+
+      <p id="status"></p>
+    </div>
+
+    <div class="pinned-section">
+      <h3>📌 Pin Repository</h3>
+      <form id="pinForm">
+        <label for="repoUrl">Repository URL:</label>
+        <input type="url" id="repoUrl" name="repoUrl" required placeholder="https://github.com/username/repo"><br><br>
+
+        <label for="repoTitle">Title (optional):</label>
+        <input type="text" id="repoTitle" name="repoTitle" placeholder="Repository title"><br><br>
+
+        <label for="repoDescription">Description (optional):</label>
+        <textarea id="repoDescription" name="repoDescription" placeholder="Brief description of the repository"></textarea>
+
+        <button type="submit">Pin Repository</button>
+      </form>
+
+      <h3>📋 Pinned Repositories</h3>
+      <div class="pinned-repos-container" id="pinnedReposContainer">
+        <div class="empty-state">No repositories pinned yet.</div>
+      </div>
+    </div>
   </div>
 
-  <form id="videoForm">
-    <label for="subject">Subject:</label>
-    <input type="text" id="subject" name="subject" required placeholder="e.g., Biology, Music Theory"><br><br>
-
-    <label for="topic">Topic:</label>
-    <input type="text" id="topic" name="topic" required placeholder="Enter your specific topic"><br><br>
-
-    <label for="phone">Phone (with country code):</label>
-    <input type="text" id="phone" name="phone" required><br><br>
-
-    <button type="submit">Generate Video</button>
-  </form>
-
-  <p id="status"></p>
-
   <script>
+    // Video generation functionality
     function setSubject(domain) {
       document.getElementById("subject").value = domain;
     }
@@ -159,21 +301,149 @@
 
       document.getElementById("status").innerText = "Generating video... ⏳";
 
-      const res = await fetch("/generate-video", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ subject, topic, phone })
-      });
+      try {
+        const res = await fetch("/generate-video", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ subject, topic, phone })
+        });
 
-      const data = await res.json();
+        const data = await res.json();
 
-      if (data.status === "success") {
-        document.getElementById("status").innerHTML =
-          `✅ Video generated! <a href="${data.video_url}" target="_blank" style="color: #00bcd4;">Watch it here</a>`;
-      } else {
-        document.getElementById("status").innerText = "❌ Something went wrong.";
+        if (data.status === "success") {
+          document.getElementById("status").innerHTML =
+            `✅ Video generated! <a href="${data.video_url}" target="_blank" style="color: #00bcd4;">Watch it here</a>`;
+        } else {
+          document.getElementById("status").innerText = "❌ Something went wrong.";
+        }
+      } catch (error) {
+        document.getElementById("status").innerText = "❌ Network error occurred.";
       }
     });
+
+    // Repository pinning functionality
+    document.getElementById("pinForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const repoUrl = document.getElementById("repoUrl").value;
+      const repoTitle = document.getElementById("repoTitle").value;
+      const repoDescription = document.getElementById("repoDescription").value;
+
+      try {
+        const res = await fetch("/pin-repo", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            repo_url: repoUrl, 
+            title: repoTitle, 
+            description: repoDescription 
+          })
+        });
+
+        const data = await res.json();
+
+        if (data.status === "success") {
+          // Clear form
+          document.getElementById("pinForm").reset();
+          // Reload pinned repos
+          loadPinnedRepos();
+          alert("✅ Repository pinned successfully!");
+        } else {
+          alert("❌ " + data.message);
+        }
+      } catch (error) {
+        alert("❌ Failed to pin repository.");
+      }
+    });
+
+    // Load and display pinned repositories
+    async function loadPinnedRepos() {
+      try {
+        const res = await fetch("/pinned-repos");
+        const data = await res.json();
+
+        const container = document.getElementById("pinnedReposContainer");
+        
+        if (data.status === "success" && data.pinned_repos.length > 0) {
+          container.innerHTML = data.pinned_repos.map(repo => `
+            <div class="pinned-repo-item">
+              <div class="repo-title">${escapeHtml(repo.title)}</div>
+              <div class="repo-url">${escapeHtml(repo.url)}</div>
+              ${repo.description ? `<div class="repo-description">${escapeHtml(repo.description)}</div>` : ''}
+              <div class="repo-meta">
+                <span>Accessed: ${repo.access_count} times</span>
+                <div class="repo-actions">
+                  <button class="secondary" onclick="openRepo('${repo.id}', '${escapeHtml(repo.url)}')">Open</button>
+                  <button class="danger" onclick="unpinRepo('${repo.id}')">Unpin</button>
+                </div>
+              </div>
+            </div>
+          `).join('');
+        } else {
+          container.innerHTML = '<div class="empty-state">No repositories pinned yet.</div>';
+        }
+      } catch (error) {
+        console.error("Failed to load pinned repositories:", error);
+      }
+    }
+
+    // Unpin repository
+    async function unpinRepo(repoId) {
+      if (!confirm("Are you sure you want to unpin this repository?")) {
+        return;
+      }
+
+      try {
+        const res = await fetch("/unpin-repo", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ repo_id: repoId })
+        });
+
+        const data = await res.json();
+
+        if (data.status === "success") {
+          loadPinnedRepos();
+          alert("✅ Repository unpinned successfully!");
+        } else {
+          alert("❌ " + data.message);
+        }
+      } catch (error) {
+        alert("❌ Failed to unpin repository.");
+      }
+    }
+
+    // Open repository and track access
+    async function openRepo(repoId, repoUrl) {
+      // Track access
+      try {
+        await fetch("/access-repo", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ repo_id: repoId })
+        });
+      } catch (error) {
+        console.error("Failed to track access:", error);
+      }
+
+      // Open repository
+      window.open(repoUrl, '_blank');
+      
+      // Reload to update access count
+      setTimeout(loadPinnedRepos, 500);
+    }
+
+    // HTML escape function
+    function escapeHtml(unsafe) {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Load pinned repositories on page load
+    document.addEventListener("DOMContentLoaded", loadPinnedRepos);
   </script>
 </body>
 </html>
